@@ -10,6 +10,7 @@ Singly Linear               SinglyLLLnode                   SinglyLLL
 Doubly Linear               DoublyLLLnode                   DoublyLLL
 Singly Circular             SinglyCLLnode                   SinglyCLL
 Doubly Circular             DoublyCLLnode                   DoublyCLL
+Stack                       Stacknode                       Stack
 -----------------------------------------------------------------------------------------
 */
 
@@ -373,10 +374,11 @@ public:
 template <class T>
 class DoublyLLL
 {
-public:
+private:
     DoublyLLLnode<T> *first;
     int iCount;
 
+public:
     DoublyLLL();
 
     void InsertFirst(T);
@@ -1391,12 +1393,187 @@ int DoublyCLL<T> :: Count()
     return iCount;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+// Final code of Stack using Generic Approach
+/////////////////////////////////////////////////////////////////////////////////////
+
+#pragma pack(1)
+template<class T>
+class Stacknode
+{
+    public:
+        T data;
+        Stacknode<T> *next;
+
+        Stacknode(T no)
+        {
+            this->data = no;
+            this->next = NULL;
+        }
+};
+
+template<class T>
+class Stack
+{
+    private:
+        Stacknode<T> *first;
+        int iCount;
+
+    public:
+        Stack();
+
+        void push(T);     
+        T pop();
+        T peep();
+        void Display();
+        int Count();
+};
+
+template<class T>
+Stack<T> :: Stack()
+{
+    cout<<"Stack gets created succesfully...\n";
+
+    this->first = NULL;
+    this->iCount = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : push
+//  Input         : new element
+//  Output        : element gets added
+//  Description   : Used to insert element in stack
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 20/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void Stack<T> :: push(T no)
+{
+    Stacknode<T> *newn = NULL;
+
+    newn = new Stacknode<T>(no);
+
+    newn->next = this->first;
+    this->first = newn;
+
+    this->iCount++;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : pop
+//  Input         : Nothing
+//  Output        : element gets deleted
+//  Description   : Used to delete last element from stack 
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 20/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+T Stack<T> :: pop()
+{
+    T Value = 0;
+    Stacknode<T> *temp = this->first;
+
+    if(this->first == NULL)
+    {
+        cout<<"Stack is empty\n";
+        return -1;
+    }
+
+    Value = this->first->data;
+
+    this->first = this->first->next;
+    delete temp;
+
+    this->iCount--;
+
+    return Value;
+}   
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : peep
+//  Input         : Nothing
+//  Output        : last element
+//  Description   : To view the top element of the stack without removing it.
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 20/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+T Stack<T> :: peep()
+{
+    T Value = 0;
+
+    if(this->first == NULL)
+    {
+        cout<<"Stack is empty\n";
+        return -1;
+    }
+
+    Value = this->first->data;    
+    return Value;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : Display
+//  Input         : Nothing
+//  Output        : All stack elements
+//  Description   : view the all stack elements
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 20/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void Stack<T> :: Display()
+{
+    Stacknode<T> *temp = this->first;
+
+    if(this->first == NULL)
+    {
+        cout<<"Stack is empty\n";
+        return;
+    }
+
+    while(temp != NULL)
+    {
+        cout<<"|\t"<<temp->data<<"\t|\n";
+        temp = temp->next;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : Count
+//  Input         : Nothing
+//  Output        : Total elements
+//  Description   : It is used to count the total number of elements from stack
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 20/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+template<class T>
+int Stack<T> :: Count()
+{
+    return this->iCount;
+}
+
 
 //////////////////////////////////// End of Library //////////////////////////////////////
 
 int main()
 {
-    cout<<"--------------Singly Linear Linked List-------------------\n";
+    cout<<"--------------Singly Linear Linked List-------------------\n\n";
     SinglyLLL<int> *obj = new SinglyLLL<int>();
     int iRet = 0;
 
@@ -1439,7 +1616,7 @@ int main()
     delete obj;
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cout<<"\n--------------Doubly Linear Linked List-------------------\n";
+    cout<<"\n--------------Doubly Linear Linked List-------------------\n\n";
     DoublyLLL<char> *dobj = new DoublyLLL<char>();
     
     dobj->InsertFirst('c');
@@ -1473,7 +1650,7 @@ int main()
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    cout<<"\n--------------Singly Circular Linked List-------------------\n";
+    cout<<"\n--------------Singly Circular Linked List-------------------\n\n";
     
     SinglyCLL<float> *scobj = new SinglyCLL<float>(); 
     
@@ -1508,37 +1685,78 @@ int main()
     delete scobj;
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    cout<<"\n--------------Doubly Circular Linked List-------------------\n";
-
+    
+    cout<<"\n--------------Doubly Circular Linked List-------------------\n\n";
+    
     DoublyCLL<double> *dcobj = new DoublyCLL<double>(); 
-
+    
     dcobj->InsertFirst(51.321);
     dcobj->InsertFirst(21.21);
     dcobj->InsertFirst(11.1);
     dcobj->Display();
     cout<<"Total number of nodes are : "<<dcobj->Count()<<"\n";
-
+    
     dcobj->InsertLast(101.43);
     dcobj->InsertLast(121.543);
     dcobj->InsertLast(151.65);
     dcobj->Display();
     cout<<"Total number of nodes are : "<<dcobj->Count()<<"\n";
-
+    
     dcobj->DeleteFirst();
     dcobj->Display();
     cout<<"Total number of nodes are : "<<dcobj->Count()<<"\n";
-
+    
     dcobj->DeleteLast();
     dcobj->Display();
     cout<<"Total number of nodes are : "<<dcobj->Count()<<"\n";
-
+    
     dcobj->InsertAtPos(455.89,4);
     dcobj->Display();
     cout<<"Total number of nodes are : "<<dcobj->Count()<<"\n";
-
+    
     dcobj->DeleteAtPos(4);
     dcobj->Display();
     cout<<"Total number of nodes are : "<<dcobj->Count()<<"\n";
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    cout<<"\n-------------------Stack-------------------\n\n";
+
+    Stack<char> *sobj = new Stack<char>();
+
+    sobj->push('a');
+    sobj->push('b');
+    sobj->push('c');
+    sobj->push('d');
+    
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    cout<<"Return value of peep is : "<<sobj->peep()<<"\n";
+
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    cout<<"Poped element is : "<<sobj->pop()<<"\n";
+    
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    cout<<"Poped element is : "<<sobj->pop()<<"\n";
+    
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    sobj->push('e');
+    sobj->Display();
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    delete sobj;
+    
+    
     return 0;
 }
