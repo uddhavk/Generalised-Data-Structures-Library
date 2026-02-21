@@ -2,8 +2,9 @@
 //      Generalised Data Structure Library
 ////////////////////////////////////////////////////////////////////////////////////////
 
+
 /*
------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 Type                        Name of class for node        Name of class for fucntinality
 -----------------------------------------------------------------------------------------
 Singly Linear               SinglyLLLnode                   SinglyLLL
@@ -14,8 +15,7 @@ Stack                       Stacknode                       Stack
 Queue                       Queuenode                       Queue
 -----------------------------------------------------------------------------------------
 */
-
-#include <iostream>
+#include<iostream>
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -85,9 +85,6 @@ void SinglyLLL<T>::InsertFirst(T no)
     SinglyLLLnode<T> *newn = NULL;
     newn = new SinglyLLLnode<T>(no);
 
-    newn->data = no;
-    newn->next = NULL;
-
     newn->next = this->first;
     this->first = newn;
 
@@ -112,9 +109,6 @@ void SinglyLLL<T>::InsertLast(T no)
     SinglyLLLnode<T> *temp = NULL;
 
     newn = new SinglyLLLnode<T>(no);
-
-    newn->data = no;
-    newn->next = NULL;
 
     if (this->iCount == 0)
     {
@@ -225,12 +219,18 @@ void SinglyLLL<T>::Display()
     temp = this->first;
     int iCnt = 0;
 
+    if(this->first == NULL)
+    {
+        cout<<"Linked List is empty \n";
+        return;
+    }
+
     for (iCnt = 1; iCnt <= iCount; iCnt++)
     {
-        printf("| %d |->", temp->data);
+        cout<<"| "<<temp->data<<"| ->";
         temp = temp->next;
     }
-    printf("NULL\n");
+    cout<<"NULL\n";
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -271,7 +271,7 @@ void SinglyLLL<T>::InsertAtPos(T no, int pos)
 
     if (pos < 1 || pos > this->iCount + 1)
     {
-        printf("Invalid Position\n");
+        cout<<"Invalid Position\n";
         return;
     }
 
@@ -322,7 +322,7 @@ void SinglyLLL<T>::DeleteAtPos(int pos)
 
     if (pos < 1 || pos > this->iCount)
     {
-        printf("Invalid Position\n");
+        cout<<"Invalid Position\n";
         return;
     }
 
@@ -616,7 +616,7 @@ void DoublyLLL<T>::DeleteAtPos(int pos)
 
     int iCnt = 0;
 
-    if (pos < 1 || pos > this->iCount + 1)
+    if (pos < 1 || pos > this->iCount)
     {
         cout << "Invalid position";
         return;
@@ -665,6 +665,11 @@ void DoublyLLL<T>::Display()
     DoublyLLLnode<T> *temp = NULL;
     temp = this->first;
 
+    if(this->first == NULL)
+    {
+        cout<<"Linked List is empty \n";
+        return;
+    }
     cout << "\nNULL<=>";
 
     while (temp != NULL)
@@ -832,7 +837,7 @@ void SinglyCLL<T> :: InsertAtPos(T no,int pos)
 
     if(pos < 1 || pos > (iCount + 1))
     {
-        printf("Invalid Position");
+        cout<<"Invalid Position";
         return;
     }
     if(pos == 1)
@@ -966,7 +971,7 @@ void SinglyCLL<T> :: DeleteAtPos(int pos)
 
     if(pos < 1 || pos > (iCount + 1))
     {
-        printf("Invalid Position");
+        cout<<"Invalid Position";
         return;
     }
     if(pos == 1)
@@ -1008,11 +1013,21 @@ void SinglyCLL<T> :: DeleteAtPos(int pos)
 template<class T>
 void SinglyCLL<T> :: Display()
 {
+    SinglyCLLnode<T> *temp = NULL;
+
+    temp = this->first;
+
+    if(this->first == NULL && this->last == NULL)
+    {
+        cout<<"Linked List is empty \n";
+        return;
+    }
+
     do
     {
-        cout<<"| "<<first->data<<" |->";
-        first = first->next;
-    }while(first != last->next);
+        cout<<"| "<<temp->data<<" |->";
+        temp = temp->next;
+    }while(temp != last->next);
     cout<<"\n";
 }
 
@@ -1105,10 +1120,6 @@ void DoublyCLL<T> :: InsertFirst(T no)
 
     newn = new DoublyCLLnode<T>(no);
 
-    newn->data = no;
-    newn->next = NULL;
-    newn->prev = NULL;
-
     if((this->first == NULL) && (this->last == NULL))
     {
         this->first = newn;
@@ -1145,10 +1156,6 @@ void DoublyCLL<T> :: InsertLast(T no)
     DoublyCLLnode<T> *newn = NULL;
     
     newn = new DoublyCLLnode<T>(no);
-    
-    newn->data = no;
-    newn->next = NULL;
-    newn->prev = NULL;
     
     if((this->first == NULL) && (this->last == NULL))
     {
@@ -1189,7 +1196,7 @@ void DoublyCLL<T> :: InsertAtPos(T no,int pos)
 
     if(pos < 1 || pos > (iCount + 1))
     {
-        printf("Invalid Position");
+        cout<<"Invalid Position";
         return;
     }
 
@@ -1205,10 +1212,6 @@ void DoublyCLL<T> :: InsertAtPos(T no,int pos)
     {  
         temp = this->first;
         newn = new DoublyCLLnode<T>(no);
-
-        newn->data = no;
-        newn->next = NULL;
-        newn->prev = NULL;
 
         for(iCnt = 1; iCnt < pos-1; iCnt++)
         {
@@ -1325,7 +1328,7 @@ void DoublyCLL<T> :: DeleteAtPos(int pos)
 
     if(pos < 1 || pos > iCount)
     {
-        printf("Invalid Position\n");
+        cout<<"Invalid Position\n";
         return;
     }
     else if(pos == 1)
@@ -1367,12 +1370,20 @@ void DoublyCLL<T> :: DeleteAtPos(int pos)
 template<class T>
 void DoublyCLL<T> :: Display()
 {
+    DoublyCLLnode<T> *temp = this->first;
+    
+    if(this->first == NULL && this->last == NULL)
+    {
+        cout<<"LinkedList is empty \n";
+        return;
+    }
+    
     cout<<"<=>";
     do
     {
-        cout<<"| "<<first->data<<" |<=>";
-        first = first->next;
-    }while(first != last->next);
+        cout<<"| "<<temp->data<<" |<=>";
+        temp = temp->next;
+    }while(temp != last->next);
     cout<<"\n";
 }
 
@@ -1610,6 +1621,7 @@ class Queue
 template<class T>
 Queue<T> :: Queue()
 {
+    cout<<"Queue gets created succesfully...\n";
     this->first =NULL;
     this->last =NULL;
 
@@ -1661,7 +1673,7 @@ void Queue<T> :: enqueue(T no)
 template<class T>
 T Queue<T> :: dequeue()
 {
-    int Value=0;
+    T Value=0;
     Queuenode<T> *temp = NULL;
     
     if(this->first == NULL && this->last == NULL)
