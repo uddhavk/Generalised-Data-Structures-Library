@@ -11,6 +11,7 @@ Doubly Linear               DoublyLLLnode                   DoublyLLL
 Singly Circular             SinglyCLLnode                   SinglyCLL
 Doubly Circular             DoublyCLLnode                   DoublyCLL
 Stack                       Stacknode                       Stack
+Queue                       Queuenode                       Queue
 -----------------------------------------------------------------------------------------
 */
 
@@ -1568,6 +1569,165 @@ int Stack<T> :: Count()
     return this->iCount;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+// Final code of Queue using Generic Approach
+//////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma pack(1)
+
+template<class T>
+class Queuenode
+{
+    public:
+        T data;
+        Queuenode<T> *next;
+
+        Queuenode(T no)
+        {
+            this->data = no;
+            this->next = NULL;
+        }
+};
+
+
+template<class T>
+class Queue
+{
+    private:
+        Queuenode<T> *first;
+        Queuenode<T>*last;
+
+        int iCount;
+
+        public:
+            Queue();
+            void enqueue(T);
+            T dequeue();
+            void Display();
+            int Count();
+};
+
+template<class T>
+Queue<T> :: Queue()
+{
+    this->first =NULL;
+    this->last =NULL;
+
+    this->iCount = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : enqueue
+//  Input         : element
+//  Output        : New element added
+//  Description   : It is used to insert the element are last position in Queue
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 21/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void Queue<T> :: enqueue(T no)
+{
+    Queuenode<T> *newn = NULL;
+    
+    newn = new Queuenode<T>(no);
+    
+    if(this->first == NULL && this->last == NULL)
+    {
+        this->first = newn;
+        this->last = newn;
+    }
+    else
+    {
+        this->last->next = newn;
+        this->last = this->last->next;
+    }
+    this->iCount++;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : dequeue
+//  Input         : Nothing
+//  Output        : Remove element
+//  Description   : It is used to delete the first element from Queue
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 21/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+T Queue<T> :: dequeue()
+{
+    int Value=0;
+    Queuenode<T> *temp = NULL;
+    
+    if(this->first == NULL && this->last == NULL)
+    {
+        cout<<"Queue is empty\n";
+        return -1;
+    }
+    else
+    {
+        Value = this->first->data;
+        temp = this->first;
+        this->first = first->next;
+        delete temp;
+        this->iCount--;
+        return Value;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : Display
+//  Input         : Nothing
+//  Output        : All Queue elements
+//  Description   : view the all Queue elements
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 21/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+template<class T>
+void Queue<T> :: Display()
+{
+    Queuenode<T> *temp = this->first;
+    
+    if(this->first == NULL && this->last == NULL)
+    {
+        cout<<"Queue is empty \n";
+        return;
+    }
+
+    while(temp != NULL)
+    {
+        cout<<" | "<<temp->data<<" | - ";
+        temp = temp->next;
+    }
+    cout<<"\n";  
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : Count
+//  Input         : Nothing
+//  Output        : Total elements
+//  Description   : It is used to count the total number of elements from Queue
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 21/02/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+int Queue<T> :: Count()
+{
+    return iCount;
+}
+
 
 //////////////////////////////////// End of Library //////////////////////////////////////
 
@@ -1685,7 +1845,6 @@ int main()
     delete scobj;
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
     cout<<"\n--------------Doubly Circular Linked List-------------------\n\n";
     
     DoublyCLL<double> *dcobj = new DoublyCLL<double>(); 
@@ -1721,42 +1880,68 @@ int main()
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     cout<<"\n-------------------Stack-------------------\n\n";
-
+    
     Stack<char> *sobj = new Stack<char>();
-
+    
     sobj->push('a');
     sobj->push('b');
     sobj->push('c');
     sobj->push('d');
     
     sobj->Display();
-
+    
     cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
-
+    
     cout<<"Return value of peep is : "<<sobj->peep()<<"\n";
-
+    
     sobj->Display();
-
+    
     cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
-
+    
     cout<<"Poped element is : "<<sobj->pop()<<"\n";
     
     sobj->Display();
-
+    
     cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
-
+    
     cout<<"Poped element is : "<<sobj->pop()<<"\n";
     
     sobj->Display();
-
+    
     cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
-
+    
     sobj->push('e');
     sobj->Display();
     cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
-
+    
     delete sobj;
     
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cout<<"\n-------------------Queue-------------------\n\n";
+
+    Queue<float> *qobj = new Queue<float>();
+
+    qobj->enqueue(11.11);
+    qobj->enqueue(21.21);
+    qobj->enqueue(51.51);
+    qobj->enqueue(101.11);
+
+    qobj->Display();
+    cout<<"Number of elements are : "<<qobj->Count()<<"\n";
+
+    cout<<"Removed element is : "<<qobj->dequeue()<<"\n";
+    qobj->Display();
+    cout<<"Number of elements are : "<<qobj->Count()<<"\n";
+
+    cout<<"Removed element is : "<<qobj->dequeue()<<"\n";
+    qobj->Display();
+    cout<<"Number of elements are : "<<qobj->Count()<<"\n";
+
+    qobj->enqueue(151.51);
+    qobj->Display();
+    cout<<"Number of elements are : "<<qobj->Count()<<"\n";
+
+    delete qobj;
     
     return 0;
 }
