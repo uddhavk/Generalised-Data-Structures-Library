@@ -13,6 +13,7 @@ Singly Circular             SinglyCLLnode                   SinglyCLL
 Doubly Circular             DoublyCLLnode                   DoublyCLL
 Stack                       Stacknode                       Stack
 Queue                       Queuenode                       Queue
+Linear Search                   -                           LinearS
 -----------------------------------------------------------------------------------------
 */
 #include<iostream>
@@ -1685,7 +1686,7 @@ T Queue<T> :: dequeue()
     {
         Value = this->first->data;
         temp = this->first;
-        this->first = first->next;
+        this->first = this->first->next;
         delete temp;
         this->iCount--;
         return Value;
@@ -1740,6 +1741,117 @@ int Queue<T> :: Count()
     return iCount;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+// Final code of Linear Search using Generic Approach
+//////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T>
+class LinearS
+{
+    public:
+        T *Arr;
+        int iSize; 
+    
+        LinearS(int no);
+        ~LinearS();
+        void Accept();
+        void Display();
+        bool LinearSearch(T);
+};
+
+template <class T>
+LinearS<T> :: LinearS(int no)
+{
+    iSize = no;
+    Arr = new T[iSize];
+}
+
+template <class T>
+LinearS<T> :: ~LinearS()
+{
+    delete []Arr;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : Accept
+//  Input         : Elements to insert
+//  Output        : Nothing
+//  Description   : It is used to Accpet the elements 
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 4/03/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T>
+void LinearS<T>  :: Accept()
+{
+    int iCnt = 0;
+
+    cout<<"Enter the elements : \n";
+
+    for(iCnt = 0; iCnt < iSize; iCnt++)
+    {
+        cin>>Arr[iCnt];
+    }
+    cout<<"\n";
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : Display
+//  Input         : Nothing
+//  Output        : Display elements
+//  Description   : It is used to Display all the elements 
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 4/03/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+template <class T>
+void LinearS<T>  :: Display()
+{
+    int iCnt = 0;
+
+    cout<<"Elements are : ";
+
+    for(iCnt = 0; iCnt < iSize; iCnt++)
+    {
+        cout<<Arr[iCnt]<<"\t";
+    }
+    cout<<"\n";
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name : LinearSearch
+//  Input         : Element to search
+//  Output        : Searched element
+//  Description   : It is used to search element by using linear search
+//  Author        : Uddhav Venkatesh Khatal
+//  Date          : 4/03/2026
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T>
+bool LinearS<T>  :: LinearSearch(T iNo)
+{
+    bool bFlag = false;
+    int iCnt;
+
+    for(iCnt = 0; iCnt < iSize; iCnt++)
+    {
+        if(Arr[iCnt] == iNo)
+        {
+            bFlag = true;
+            return bFlag;
+        }
+    }
+    return false;
+}
+
+
 
 //////////////////////////////////// End of Library //////////////////////////////////////
 
@@ -1788,6 +1900,7 @@ int main()
     delete obj;
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     cout<<"\n--------------Doubly Linear Linked List-------------------\n\n";
     DoublyLLL<char> *dobj = new DoublyLLL<char>();
     
@@ -1930,30 +2043,57 @@ int main()
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     cout<<"\n-------------------Queue-------------------\n\n";
-
+    
     Queue<float> *qobj = new Queue<float>();
-
+    
     qobj->enqueue(11.11);
     qobj->enqueue(21.21);
     qobj->enqueue(51.51);
     qobj->enqueue(101.11);
-
+    
     qobj->Display();
     cout<<"Number of elements are : "<<qobj->Count()<<"\n";
-
+    
     cout<<"Removed element is : "<<qobj->dequeue()<<"\n";
     qobj->Display();
     cout<<"Number of elements are : "<<qobj->Count()<<"\n";
-
+    
     cout<<"Removed element is : "<<qobj->dequeue()<<"\n";
     qobj->Display();
     cout<<"Number of elements are : "<<qobj->Count()<<"\n";
-
+    
     qobj->enqueue(151.51);
     qobj->Display();
     cout<<"Number of elements are : "<<qobj->Count()<<"\n";
-
+    
     delete qobj;
     
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    cout<<"\n--------------Linear Search-------------------\n\n";
+    
+    int iValue = 0;
+    int iSearch = 0;
+    
+    cout<<"Enter the number of elements : \n";
+    cin>>iValue;
+    
+    LinearS<int> Lobj(iValue);
+    
+    Lobj.Accept();
+    Lobj.Display();
+    
+    cout<<"Enter the element to search : \n";
+    cin>>iSearch;
+    
+    if(Lobj.LinearSearch(iSearch))
+    {
+        cout<<"Element is present\n";
+    }
+    else
+    {
+        cout<<"Element is not present\n";
+    }
+
     return 0;
 }
